@@ -1,6 +1,6 @@
 # CouponBook - Sistema de Gestión de Cupones
 
-Sistema completo de gestión de cupones con arquitectura de microservicios, incluyendo generación masiva de códigos, asignación automática, proceso de canje en dos pasos y monitoreo en tiempo real.
+Sistema completo de gestión de cupones, incluyendo generación masiva de códigos, asignación automática, proceso de canje en dos pasos y monitoreo en tiempo real.
 
 ## 🏗️ Arquitectura
 
