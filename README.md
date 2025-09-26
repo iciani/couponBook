@@ -10,7 +10,6 @@ Sistema completo de gestión de cupones con arquitectura de microservicios, incl
 - **Cache**: Redis para locks temporales
 - **Jobs**: BullMQ para procesamiento en background
 - **Autenticación**: JWT
-- **Validación**: Express-validator
 - **Documentación**: Express-list-routes
 
 ### Frontend (couponBook-front)
@@ -268,153 +267,7 @@ Password: admin123
 ### 1. Testing con Frontend
 1. **Acceder al frontend**: `http://localhost:3000`
 2. **Login**: Usar las credenciales de prueba
-3. **Crear un libro de cupones**:
-   - Nombre: "Test Book"
-   - Patrón: "TEST-{random}"
-   - Total: 100 códigos
-   - Fechas: Actual a +30 días
-4. **Generar códigos**: Usar el botón "Generar Códigos"
-5. **Asignar cupones**: 
-   - Asignación aleatoria masiva
-   - Asignación específica por código
-6. **Probar canjes**:
-   - Lock de cupón
-   - Redeem de cupón
 
-### 2. Testing con Postman
-1. **Importar collection**: `CouponBook_API.postman_collection.json`
-2. **Configurar variables**:
-   - `base_url`: `http://localhost:3009`
-   - `auth_token`: (obtener del login)
-3. **Flujo de testing**:
-   ```
-   1. POST /v1/auth/login
-   2. GET /v1/coupon-books
-   3. POST /v1/coupon-books (crear libro)
-   4. POST /v1/coupon-codes/generate (generar códigos)
-   5. POST /v1/coupon-assignments/random (asignar cupones)
-   6. POST /v1/coupon-redemptions/lock/:code (lock cupón)
-   7. POST /v1/coupon-redemptions/redeem/:code (redeem cupón)
-   ```
-
-### 3. Testing con cURL
-```bash
-# 1. Login
-curl -X POST "http://localhost:3009/v1/auth/login" \
-  -H "Content-Type: application/json" \
-  -d '{"email": "admin@couponbook.com", "password": "admin123"}'
-
-# 2. Crear libro (usar token del login)
-curl -X POST "http://localhost:3009/v1/coupon-books" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Test Book",
-    "code_pattern": "TEST-{random}",
-    "total_codes": 50,
-    "start_at": "2025-01-01T00:00:00.000Z",
-    "end_at": "2025-12-31T23:59:59.000Z"
-  }'
-
-# 3. Generar códigos
-curl -X POST "http://localhost:3009/v1/coupon-codes/generate" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"bookId": 1, "quantity": 10}'
-
-# 4. Asignar cupón aleatorio
-curl -X POST "http://localhost:3009/v1/coupon-assignments/random" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"bookId": 1, "userId": 1, "quantity": 5}'
-
-# 5. Lock cupón
-curl -X POST "http://localhost:3009/v1/coupon-redemptions/lock/TEST-ABC123" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-
-# 6. Redeem cupón
-curl -X POST "http://localhost:3009/v1/coupon-redemptions/redeem/TEST-ABC123" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-### 4. Verificar Funcionamiento
-```bash
-# Health check
-curl http://localhost:3009/health
-
-# Lista de endpoints
-curl http://localhost:3009/api-routes
-
-# Verificar Redis
-redis-cli KEYS "coupon_lock:*"
-
-# Verificar base de datos
-psql -U postgres -d coupons -c "SELECT COUNT(*) FROM coupon_codes;"
-psql -U postgres -d coupons -c "SELECT COUNT(*) FROM coupon_assignments;"
-psql -U postgres -d coupons -c "SELECT COUNT(*) FROM coupon_redemptions;"
-```
-
-### 5. Monitoreo en Tiempo Real
-- **Frontend Dashboard**: `http://localhost:3000` - Estadísticas y gráficos
-- **BullMQ Dashboard**: `http://localhost:3009/bull-monitor` - Jobs en cola
-- **API Health**: `http://localhost:3009/health` - Estado del sistema
-- **Logs del Backend**: Terminal donde corre `npm start`
-
-### 6. Casos de Prueba Específicos
-
-#### Test de Concurrencia
-```bash
-# Lock múltiples cupones simultáneamente
-for i in {1..5}; do
-  curl -X POST "http://localhost:3009/v1/coupon-redemptions/lock/TEST-CODE$i" \
-    -H "Authorization: Bearer YOUR_TOKEN" &
-done
-wait
-```
-
-#### Test de Límites
-```bash
-# Intentar asignar más cupones de los permitidos
-curl -X POST "http://localhost:3009/v1/coupon-assignments/random" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"bookId": 1, "userId": 1, "quantity": 100}'
-```
-
-#### Test de Validaciones
-```bash
-# Intentar canjear cupón no asignado
-curl -X POST "http://localhost:3009/v1/coupon-redemptions/lock/INVALID-CODE" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-
-# Intentar canjear cupón ya canjeado
-curl -X POST "http://localhost:3009/v1/coupon-redemptions/redeem/ALREADY-REDEEMED" \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-### 7. Troubleshooting
-
-#### Backend no inicia
-```bash
-# Verificar puerto
-lsof -i :3009
-
-# Verificar base de datos
-psql -U postgres -d coupons -c "SELECT 1;"
-
-# Verificar Redis
-redis-cli ping
-```
-
-#### Frontend no carga
-```bash
-# Verificar puerto
-lsof -i :3000
-
-# Limpiar cache
-rm -rf node_modules package-lock.json
-npm install
-```
 
 #### Errores de base de datos
 ```bash
@@ -431,18 +284,6 @@ npm run db:seed:all
 - **Índices Optimizados**: Para consultas frecuentes
 - **Soft Deletes**: Eliminación lógica con `paranoid`
 - **Transacciones**: Operaciones atómicas críticas
-
-### Performance
-- **Consultas Eficientes**: Includes anidados optimizados
-- **Paginación Server-Side**: Para grandes volúmenes
-- **Cache Redis**: Para locks temporales
-- **Background Jobs**: Para operaciones pesadas
-
-### Escalabilidad
-- **Microservicios Ready**: Arquitectura preparada
-- **Queue System**: BullMQ para procesamiento asíncrono
-- **Concurrencia**: Configurable por worker
-- **Monitoreo**: Health checks y métricas
 
 ## 🔒 Seguridad
 
@@ -476,39 +317,7 @@ npm run db:seed:all
 
 ## 🚀 Deployment
 
-### AWS Architecture (Recomendada)
-- **ECS Fargate**: Contenedores sin servidor
-- **RDS PostgreSQL**: Base de datos gestionada
-- **ElastiCache Redis**: Cache distribuido
-- **API Gateway**: Proxy y rate limiting
-- **SQS/SNS**: Mensajería asíncrona
-- **CloudWatch**: Monitoreo y logs
-- **X-Ray**: Tracing distribuido
 
-### Docker
-```bash
-# Backend
-docker build -t couponbook-back ./couponBook-back
-docker run -p 3009:3009 couponbook-back
-
-# Frontend
-docker build -t couponbook-front ./couponBook-front
-docker run -p 3000:3000 couponbook-front
-```
-
-## 📊 Monitoreo
-
-### Métricas Disponibles
-- Conexiones de base de datos activas
-- Jobs en cola y procesados
-- Tiempo de respuesta de endpoints
-- Uso de memoria y CPU
-
-### Logs
-- Estructurados en JSON
-- Niveles configurables
-- Rotación automática
-- Integración con CloudWatch
 
 ## 🔄 Flujo de Trabajo
 
@@ -538,5 +347,3 @@ docker run -p 3000:3000 couponbook-front
 Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 
 ---
-
-**Desarrollado con ❤️ para gestión eficiente de cupones**
