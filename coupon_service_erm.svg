@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1400" height="1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .table { fill: #ffffff; stroke: #2c3e50; stroke-width: 2; rx: 8; }
+      .table-header { fill: #3498db; stroke: #2c3e50; stroke-width: 1; rx: 8; }
+      .field { fill: #ecf0f1; stroke: #bdc3c7; stroke-width: 1; }
+      .pk { fill: #f39c12; stroke: #e67e22; stroke-width: 2; }
+      .fk { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+      .text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; text-anchor: start; fill: #2c3e50; }
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #2c3e50; }
+      .table-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #ffffff; }
+      .relationship { stroke: #34495e; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+      .relationship-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #34495e; font-weight: bold; }
+      .legend-box { fill: #ecf0f1; stroke: #bdc3c7; stroke-width: 1; rx: 5; }
+      .section-title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #2c3e50; }
+      .field-name { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold; }
+      .field-type { font-family: 'Segoe UI', Arial, sans-serif; font-size: 9px; fill: #7f8c8d; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34495e" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1400" height="1000" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="700" y="40" class="title">CouponBook - Database Schema</text>
+  
+  <!-- Users Table -->
+  <g transform="translate(50, 80)">
+    <rect width="220" height="180" class="table"/>
+    <rect width="220" height="30" class="table-header"/>
+    <text x="110" y="22" class="table-title">users</text>
+    
+    <rect y="30" width="220" height="25" class="pk"/>
+    <text x="10" y="47" class="field-name">id</text>
+    <text x="180" y="47" class="field-type">SERIAL PK</text>
+    
+    <rect y="55" width="220" height="25" class="field"/>
+    <text x="10" y="72" class="field-name">name</text>
+    <text x="180" y="72" class="field-type">VARCHAR(255)</text>
+    
+    <rect y="80" width="220" height="25" class="field"/>
+    <text x="10" y="97" class="field-name">email</text>
+    <text x="180" y="97" class="field-type">VARCHAR(255) UNIQUE</text>
+    
+    <rect y="105" width="220" height="25" class="field"/>
+    <text x="10" y="122" class="field-name">password_hash</text>
+    <text x="180" y="122" class="field-type">VARCHAR(255)</text>
+    
+    <rect y="130" width="220" height="25" class="field"/>
+    <text x="10" y="147" class="field-name">role</text>
+    <text x="180" y="147" class="field-type">ENUM('user','admin')</text>
+    
+    <rect y="155" width="220" height="25" class="field"/>
+    <text x="10" y="172" class="field-name">timestamps</text>
+    <text x="180" y="172" class="field-type">created_at, updated_at, deleted_at</text>
+  </g>
+  
+  <!-- Coupon Books Table -->
+  <g transform="translate(320, 80)">
+    <rect width="240" height="240" class="table"/>
+    <rect width="240" height="30" class="table-header"/>
+    <text x="120" y="22" class="table-title">coupon_books</text>
+    
+    <rect y="30" width="240" height="25" class="pk"/>
+    <text x="10" y="47" class="field-name">id</text>
+    <text x="200" y="47" class="field-type">SERIAL PK</text>
+    
+    <rect y="55" width="240" height="25" class="field"/>
+    <text x="10" y="72" class="field-name">name</text>
+    <text x="200" y="72" class="field-type">VARCHAR(255)</text>
+    
+    <rect y="80" width="240" height="25" class="field"/>
+    <text x="10" y="97" class="field-name">description</text>
+    <text x="200" y="97" class="field-type">TEXT</text>
+    
+    <rect y="105" width="240" height="25" class="field"/>
+    <text x="10" y="122" class="field-name">code_pattern</text>
+    <text x="200" y="122" class="field-type">VARCHAR(255)</text>
+    
+    <rect y="130" width="240" height="25" class="field"/>
+    <text x="10" y="147" class="field-name">total_codes</text>
+    <text x="200" y="147" class="field-type">INTEGER</text>
+    
+    <rect y="155" width="240" height="25" class="field"/>
+    <text x="10" y="172" class="field-name">allow_multiple_redemptions_per_user</text>
+    <text x="200" y="172" class="field-type">BOOLEAN</text>
+    
+    <rect y="180" width="240" height="25" class="field"/>
+    <text x="10" y="197" class="field-name">per_user_max_assigned_codes</text>
+    <text x="200" y="197" class="field-type">INTEGER</text>
+    
+    <rect y="205" width="240" height="25" class="field"/>
+    <text x="10" y="222" class="field-name">per_user_max_redemptions</text>
+    <text x="200" y="222" class="field-type">INTEGER</text>
+    
+    <rect y="230" width="240" height="25" class="field"/>
+    <text x="10" y="247" class="field-name">start_at, end_at, status</text>
+    <text x="200" y="247" class="field-type">TIMESTAMP, ENUM</text>
+  </g>
+  
+  <!-- Coupon Codes Table -->
+  <g transform="translate(610, 80)">
+    <rect width="220" height="200" class="table"/>
+    <rect width="220" height="30" class="table-header"/>
+    <text x="110" y="22" class="table-title">coupon_codes</text>
+    
+    <rect y="30" width="220" height="25" class="pk"/>
+    <text x="10" y="47" class="field-name">id</text>
+    <text x="180" y="47" class="field-type">SERIAL PK</text>
+    
+    <rect y="55" width="220" height="25" class="fk"/>
+    <text x="10" y="72" class="field-name">book_id</text>
+    <text x="180" y="72" class="field-type">INTEGER FK</text>
+    
+    <rect y="80" width="220" height="25" class="field"/>
+    <text x="10" y="97" class="field-name">code</text>
+    <text x="180" y="97" class="field-type">VARCHAR(255) UNIQUE</text>
+    
+    <rect y="105" width="220" height="25" class="field"/>
+    <text x="10" y="122" class="field-name">status</text>
+    <text x="180" y="122" class="field-type">ENUM('AVAILABLE','ASSIGNED','TEMP_LOCKED','REDEEMED')</text>
+    
+    <rect y="130" width="220" height="25" class="field"/>
+    <text x="10" y="147" class="field-name">assigned_at</text>
+    <text x="180" y="147" class="field-type">TIMESTAMP</text>
+    
+    <rect y="155" width="220" height="25" class="field"/>
+    <text x="10" y="172" class="field-name">used_at</text>
+    <text x="180" y="172" class="field-type">TIMESTAMP</text>
+    
+    <rect y="180" width="220" height="25" class="field"/>
+    <text x="10" y="197" class="field-name">timestamps</text>
+    <text x="180" y="197" class="field-type">created_at, updated_at, deleted_at</text>
+  </g>
+  
+  <!-- Coupon Assignments Table -->
+  <g transform="translate(880, 80)">
+    <rect width="220" height="160" class="table"/>
+    <rect width="220" height="30" class="table-header"/>
+    <text x="110" y="22" class="table-title">coupon_assignments</text>
+    
+    <rect y="30" width="220" height="25" class="pk"/>
+    <text x="10" y="47" class="field-name">id</text>
+    <text x="180" y="47" class="field-type">SERIAL PK</text>
+    
+    <rect y="55" width="220" height="25" class="fk"/>
+    <text x="10" y="72" class="field-name">coupon_id</text>
+    <text x="180" y="72" class="field-type">INTEGER FK</text>
+    
+    <rect y="80" width="220" height="25" class="fk"/>
+    <text x="10" y="97" class="field-name">user_id</text>
+    <text x="180" y="97" class="field-type">INTEGER FK</text>
+    
+    <rect y="105" width="220" height="25" class="field"/>
+    <text x="10" y="122" class="field-name">assigned_at</text>
+    <text x="180" y="122" class="field-type">TIMESTAMP</text>
+    
+    <rect y="130" width="220" height="25" class="field"/>
+    <text x="10" y="147" class="field-name">timestamps</text>
+    <text x="180" y="147" class="field-type">created_at, updated_at, deleted_at</text>
+  </g>
+  
+  <!-- Coupon Redemptions Table -->
+  <g transform="translate(1150, 80)">
+    <rect width="220" height="140" class="table"/>
+    <rect width="220" height="30" class="table-header"/>
+    <text x="110" y="22" class="table-title">coupon_redemptions</text>
+    
+    <rect y="30" width="220" height="25" class="pk"/>
+    <text x="10" y="47" class="field-name">id</text>
+    <text x="180" y="47" class="field-type">SERIAL PK</text>
+    
+    <rect y="55" width="220" height="25" class="fk"/>
+    <text x="10" y="72" class="field-name">coupon_id</text>
+    <text x="180" y="72" class="field-type">INTEGER FK</text>
+    
+    <rect y="80" width="220" height="25" class="fk"/>
+    <text x="10" y="97" class="field-name">assignment_id</text>
+    <text x="180" y="97" class="field-type">INTEGER FK</text>
+    
+    <rect y="105" width="220" height="25" class="field"/>
+    <text x="10" y="122" class="field-name">redeemed_at</text>
+    <text x="180" y="122" class="field-type">TIMESTAMP</text>
+    
+    <rect y="130" width="220" height="25" class="field"/>
+    <text x="10" y="147" class="field-name">timestamps</text>
+    <text x="180" y="147" class="field-type">created_at, updated_at, deleted_at</text>
+  </g>
+  
+  <!-- Relationships -->
+  
+  <!-- Coupon Books -> Coupon Codes -->
+  <line x1="560" y1="200" x2="610" y2="200" class="relationship"/>
+  <text x="585" y="195" class="relationship-label">1:N</text>
+  
+  <!-- Coupon Codes -> Coupon Assignments -->
+  <line x1="830" y1="200" x2="880" y2="200" class="relationship"/>
+  <text x="855" y="195" class="relationship-label">1:N</text>
+  
+  <!-- Users -> Coupon Assignments -->
+  <line x1="270" y1="260" x2="880" y2="260" class="relationship"/>
+  <text x="575" y="255" class="relationship-label">1:N</text>
+  
+  <!-- Coupon Assignments -> Coupon Redemptions -->
+  <line x1="1100" y1="200" x2="1150" y2="200" class="relationship"/>
+  <text x="1125" y="195" class="relationship-label">1:N</text>
+  
+  <!-- Legend -->
+  <g transform="translate(50, 350)">
+    <rect width="300" height="200" class="legend-box"/>
+    <text x="150" y="25" class="section-title">Legend</text>
+    
+    <rect x="20" y="40" width="20" height="15" class="pk"/>
+    <text x="50" y="52" class="text">Primary Key</text>
+    
+    <rect x="20" y="65" width="20" height="15" class="fk"/>
+    <text x="50" y="77" class="text">Foreign Key</text>
+    
+    <rect x="20" y="90" width="20" height="15" class="field"/>
+    <text x="50" y="102" class="text">Regular Field</text>
+    
+    <rect x="20" y="115" width="20" height="15" class="table"/>
+    <text x="50" y="127" class="text">Table</text>
+    
+    <text x="20" y="155" class="text">Relationships:</text>
+    <text x="20" y="175" class="text">• 1:N = One to Many</text>
+    <text x="20" y="190" class="text">• All tables use soft deletes</text>
+  </g>
+  
+  <!-- Status Values -->
+  <g transform="translate(400, 350)">
+    <rect width="300" height="200" class="legend-box"/>
+    <text x="150" y="25" class="section-title">Status Values</text>
+    
+    <text x="20" y="50" class="text">Coupon Books:</text>
+    <text x="30" y="70" class="text">• ACTIVE - Available for use</text>
+    <text x="30" y="85" class="text">• INACTIVE - Disabled</text>
+    <text x="30" y="100" class="text">• EXPIRED - Past end date</text>
+    
+    <text x="20" y="125" class="text">Coupon Codes:</text>
+    <text x="30" y="145" class="text">• AVAILABLE - Ready for assignment</text>
+    <text x="30" y="160" class="text">• ASSIGNED - Assigned to user</text>
+    <text x="30" y="175" class="text">• TEMP_LOCKED - Temporarily locked</text>
+    <text x="30" y="190" class="text">• REDEEMED - Successfully redeemed</text>
+  </g>
+  
+  <!-- Key Features -->
+  <g transform="translate(750, 350)">
+    <rect width="500" height="200" class="legend-box"/>
+    <text x="250" y="25" class="section-title">Key Features</text>
+    
+    <text x="20" y="50" class="text">• Two-step redemption process (lock + redeem)</text>
+    <text x="20" y="70" class="text">• Redis for temporary coupon locks (3 minutes)</text>
+    <text x="20" y="90" class="text">• Multiple redemptions per user support</text>
+    <text x="20" y="110" class="text">• Per-user assignment and redemption limits</text>
+    <text x="20" y="130" class="text">• Background job processing for code generation</text>
+    <text x="20" y="150" class="text">• Comprehensive audit trail with timestamps</text>
+    <text x="20" y="170" class="text">• Optimized queries with proper indexing</text>
+    <text x="20" y="190" class="text">• Soft deletes enabled on all tables</text>
+  </g>
+  
+  <!-- Database Info -->
+  <g transform="translate(50, 600)">
+    <rect width="1300" height="120" class="legend-box"/>
+    <text x="650" y="25" class="section-title">Database Information</text>
+    
+    <text x="20" y="50" class="text">Database Engine: PostgreSQL 13+</text>
+    <text x="20" y="70" class="text">ORM: Sequelize with connection pooling</text>
+    <text x="20" y="90" class="text">Cache: Redis for locks and session management</text>
+    <text x="20" y="110" class="text">Background Jobs: BullMQ for code generation</text>
+    
+    <text x="400" y="50" class="text">Indexes: Optimized for frequent queries</text>
+    <text x="400" y="70" class="text">Constraints: Foreign keys with cascade options</text>
+    <text x="400" y="90" class="text">Validation: Model-level and database-level</text>
+    <text x="400" y="110" class="text">Migration: Version-controlled schema changes</text>
+    
+    <text x="800" y="50" class="text">Concurrency: Optimized for high load</text>
+    <text x="800" y="70" class="text">Transactions: ACID compliance</text>
+    <text x="800" y="90" class="text">Backup: Automated with point-in-time recovery</text>
+    <text x="800" y="110" class="text">Monitoring: Health checks and performance metrics</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="700" y="980" class="text">Generated for CouponBook System - Database Schema v2.0</text>
+</svg>

@@ -1,0 +1,511 @@
+{
+  "info": {
+    "name": "CouponBook API",
+    "description": "API completa para el sistema de gestión de cupones",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.1.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3009",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@couponbook.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Coupon Books",
+      "item": [
+        {
+          "name": "List Books",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-books?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-books"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Book by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-books/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-books", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Book",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Summer Sale 2025\",\n  \"description\": \"Descuentos de verano\",\n  \"code_pattern\": \"SUMMER-{random}\",\n  \"total_codes\": 1000,\n  \"allow_multiple_redemptions_per_user\": true,\n  \"per_user_max_assigned_codes\": 5,\n  \"per_user_max_redemptions\": 3,\n  \"start_at\": \"2025-06-01T00:00:00.000Z\",\n  \"end_at\": \"2025-08-31T23:59:59.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-books",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-books"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Summer Sale 2025 Updated\",\n  \"description\": \"Descuentos de verano actualizados\",\n  \"code_pattern\": \"SUMMER-{random}\",\n  \"total_codes\": 1500,\n  \"allow_multiple_redemptions_per_user\": true,\n  \"per_user_max_assigned_codes\": 10,\n  \"per_user_max_redemptions\": 5,\n  \"start_at\": \"2025-06-01T00:00:00.000Z\",\n  \"end_at\": \"2025-08-31T23:59:59.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-books/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-books", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-books/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-books", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Coupon Codes",
+      "item": [
+        {
+          "name": "List Codes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-codes?page=1&limit=20&status=AVAILABLE",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-codes"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"},
+                {"key": "status", "value": "AVAILABLE"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Code by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-codes/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-codes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Codes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1,\n  \"quantity\": 100\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-codes/generate",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-codes", "generate"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Coupon Assignments",
+      "item": [
+        {
+          "name": "List Assignments by User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-assignments/user/1?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-assignments", "user", "1"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Assignment by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-assignments/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-assignments", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign Random Coupons",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1,\n  \"userId\": 1,\n  \"quantity\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-assignments/random",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-assignments", "random"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign Specific Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"1-SPRING-ABC123\",\n  \"userId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-assignments/specific",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-assignments", "specific"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unassign Coupon",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-assignments/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-assignments", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Coupon Redemptions",
+      "item": [
+        {
+          "name": "List Redemptions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-redemptions?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-redemptions"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lock Coupon",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-redemptions/lock/1-SPRING-ABC123",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-redemptions", "lock", "1-SPRING-ABC123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unlock Coupon",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-redemptions/lock/1-SPRING-ABC123",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-redemptions", "lock", "1-SPRING-ABC123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Redeem Coupon",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/coupon-redemptions/redeem/1-SPRING-ABC123",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "coupon-redemptions", "redeem", "1-SPRING-ABC123"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/users?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez Actualizado\",\n  \"email\": \"juan.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API Routes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api-routes",
+              "host": ["{{base_url}}"],
+              "path": ["api-routes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
